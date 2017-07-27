@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SampleController do
+describe SampleController, :type => :controller do
   describe "GET to :index" do
     controller do
       def index

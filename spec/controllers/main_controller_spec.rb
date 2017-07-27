@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TimecopConsole::MainController do
+describe TimecopConsole::MainController, type: :controller do
   before(:each) do
     request.env["HTTP_REFERER"] = "where_i_came_from"
   end
@@ -17,7 +17,7 @@ describe TimecopConsole::MainController do
     end
 
     it 'redirects back' do
-      post :update, :timecop => timecop_param, :use_route => :timecop_console
+      post :update, params: {:timecop => timecop_param, :use_route => :timecop_console}
 
       response.should redirect_to("where_i_came_from")
     end
@@ -28,7 +28,7 @@ describe TimecopConsole::MainController do
       end
 
       it 'redirects back' do
-        post :update, date_params.merge(use_route: :timecop_console)
+        post :update, params: date_params.merge(use_route: :timecop_console)
 
         response.should redirect_to("where_i_came_from")
       end
@@ -36,7 +36,7 @@ describe TimecopConsole::MainController do
       it 'sets virtual time with respect to Time.zone setting' do
         Time.zone = ActiveSupport::TimeZone.all.detect { |tz| tz.name == 'Central Time (US & Canada)' } or raise("can not find TZ")
 
-        post :update, date_params.merge(use_route: :timecop_console)
+        post :update, params: date_params.merge(use_route: :timecop_console)
 
         session[TimecopConsole::SESSION_KEY_NAME].strftime('%d %b %H:%M %Z').should eq("22 Aug 12:00 CDT")
       end
@@ -45,7 +45,7 @@ describe TimecopConsole::MainController do
 
   describe "GET to :reset" do
     it 'redirects back' do
-      get :reset, :use_route => :timecop_console
+      get :reset, params: {:use_route => :timecop_console}
 
       response.should redirect_to "where_i_came_from"
     end

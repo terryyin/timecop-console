@@ -14,7 +14,7 @@ Add to your `Gemfile`:
 
 Avoid having `timecop-console` gem as part of `test` group if you use Timecop in your tests to avoid any hard-to-debug exceptions.
 
-By requiring this dependency, it will open up ActionController::Base and inject an around_filter that will manage Time.now and friends for you.
+By requiring this dependency, it will open up ActionController::Base and inject an around_action that will manage Time.now and friends for you.
 
 You'll want to hook in the mountable engine for handling time changes in the specific environments that you want this to load in (probably only development, staging). Modify your `config/routes.rb`, adding:
 
